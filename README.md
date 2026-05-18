@@ -1,49 +1,129 @@
-**Virtual Mouse Using Hand Gesture Recognition**
+<div align="center">
 
-**Introduction** 
+<img src="https://capsule-render.vercel.app/api?type=waving&color=0:0a0a1a,40:1a1a3e,70:2d2d6b,100:0a0a1a&height=200&section=header&text=AirMouse&fontSize=72&fontColor=ffffff&fontAlignY=38&fontStyle=bold&desc=Control%20Your%20Computer%20Without%20Touching%20It&descSize=17&descAlignY=62&descColor=818cf8" width="100%"/>
 
-The  rapid  advancement  in  computer  vision  has  opened  up  innovative  ways  to  interact  with computers beyond traditional input devices like keyboards and mice. This project aims to develop a Virtual Mouse system that allows users to control their computer cursor using hand gestures detected through a webcam. Leveraging the power of OpenCV, the project will identify and track hand movements to simulate mouse actions such as moving the cursor, clicking, and scrolling. This approach offers a touchless interaction method, which is particularly relevant in today's context of minimizing physical contact with shared devices. 
+<br/>
 
-**Problem Statement** 
+<p align="center">
+  <img src="https://img.shields.io/badge/MediaPipe-Hand%20Tracking-FF6B35?style=for-the-badge&logo=google&logoColor=white"/>
+  <img src="https://img.shields.io/badge/OpenCV-Real--Time%20Vision-5C3317?style=for-the-badge&logo=opencv&logoColor=white"/>
+  <img src="https://img.shields.io/badge/PyAutoGUI-Mouse%20Control-3776AB?style=for-the-badge&logo=python&logoColor=white"/>
+  <img src="https://img.shields.io/badge/Python-3.x-3776AB?style=for-the-badge&logo=python&logoColor=white"/>
+</p>
 
-Traditional computer input devices like keyboards and mice can be problematic, especially when hygiene is important. Using shared devices can spread germs and viruses, which is a big concern in public places and during health crises like pandemics. Moreover, these devices can be difficult for people with physical disabilities to use. Therefore, there is a need for a new way to interact with computers that doesn’t require touching shared surfaces, is accessible to everyone, and is easy to use. 
+<p align="center">
+  <img src="https://img.shields.io/badge/Input-Webcam-blue?style=flat-square"/>
+  <img src="https://img.shields.io/badge/Landmarks-21%20Hand%20Points-orange?style=flat-square"/>
+  <img src="https://img.shields.io/badge/Output-Real--Time%20Mouse%20Control-green?style=flat-square"/>
+  <img src="https://img.shields.io/badge/Phases-2%20(Build%20%2B%20Tune)-purple?style=flat-square"/>
+</p>
 
-**Related Work** 
+<br/>
 
-Several approaches have been explored in the domain of touchless interaction and gesture recognition: 
+> **AirMouse** is a touchless computer control system that uses MediaPipe's 21-point 3D hand landmark detection and OpenCV to track hand gestures through a standard webcam and translate them into real-time mouse movements, clicks, and scrolling — no hardware required beyond your camera.
 
-1. **Leap Motion Controller:** This device uses infrared sensors to detect hand and finger movements in 3D space. While highly accurate, it requires proprietary hardware and is not as cost-effective as webcam-based solutions. 
-1. **Microsoft Kinect:** Kinect uses a combination of RGB and depth sensors to interpret body movements  and  gestures.  Though  versatile,  it  is  primarily  designed  for  gaming  and entertainment purposes and involves higher costs and more complex setup compared to webcams. 
-1. **Hand Gesture Recognition using Deep Learning:** Research in this area often involves using convolutional neural networks (CNNs) to classify hand gestures from images or video frames. While deep learning methods can achieve high accuracy, they typically require large datasets for training and substantial computational resources. 
-4. **OpenCV-based  Approaches:**  OpenCV  has  been  widely  used  for  real-time  image processing tasks, including gesture recognition. Techniques such as contour detection, convex  hulls,  and  defect  detection  are  commonly  employed.  These  methods  can  be implemented with relatively low computational cost and can run efficiently on standard hardware. 
+</div>
 
-The proposed project aims to build on the strengths of OpenCV-based techniques, leveraging real- time image processing capabilities to create a practical, cost-effective virtual mouse system. 
+---
 
-**Tools and Techniques** 
+## 🧠 How It Works
 
-1. **OpenCV (Open Source Computer Vision Library)**: OpenCV is a highly optimized library focused on real-time image processing. It provides tools for capturing video from the webcam, converting images from one color space to another, detecting edges, shapes, and contours, and more. In this project, OpenCV is utilized to:
-   - Capture video frames from the webcam.
-   - Convert the color space of video frames for further processing.
-   - Draw shapes and annotations on the video feed to visualize hand tracking and gestures.
+```
+Webcam Frame
+     │
+     ▼
+MediaPipe Hands
+  Detects 21 3D landmarks per hand (wrist, knuckles, fingertips)
+     │
+     ▼
+Landmark Analysis
+  Index fingertip position  → cursor coordinates
+  Thumb + index pinch       → left click
+  Finger distance tracking  → scroll detection
+     │
+     ▼
+NumPy Coordinate Smoothing
+  Exponential averaging reduces jitter
+  Maps hand frame → screen resolution
+     │
+     ▼
+PyAutoGUI
+  Moves cursor to mapped position
+  Fires click / scroll events
+```
 
-2. **Mediapipe**: Developed by Google, Mediapipe is a versatile and comprehensive framework for building multimodal machine learning pipelines. It provides ready-to-use solutions for real-time hand tracking by detecting 21 3D landmarks on a hand. In this project, Mediapipe is used to:
-   - Detect hand landmarks in real-time.
-   - Track the movement and positions of hand landmarks.
-   - Facilitate the identification of specific gestures such as clicks and drags.
+---
 
-3. **PyAutoGUI**: PyAutoGUI is a cross-platform GUI automation Python module that allows for programmatically controlling the mouse and keyboard. It simulates mouse movements, clicks, and drags. This project uses PyAutoGUI to:
-   - Move the mouse cursor to a specific screen position based on hand gestures.
-   - Perform mouse click actions when specific gestures are detected (e.g., thumb and index finger coming together).
+## ✨ Features
 
-4. **NumPy (Numerical Python)**: NumPy is a foundational package for scientific computing in Python. It provides support for arrays, matrices, and many mathematical functions. In this project, NumPy is used to:
-   - Perform mathematical operations to translate hand landmark coordinates to screen coordinates.
-   - Smooth the movement of the cursor  to create a more natural and less jittery motion.  
+| Gesture | Action |
+|---|---|
+| ☝️ Index finger move | Move cursor |
+| 🤏 Thumb + index pinch | Left click |
+| ✌️ Two-finger gesture | Scroll |
+| 🖐️ Open palm | Pause tracking |
 
-**Benefits:** 
+---
 
-1. **Touchless Interaction:** By eliminating the need for physical contact, this system can help reduce  the  spread  of  germs  and  improve  hygiene,  especially  in  public  or  shared environments. 
-1. **Cost-Effective:** Utilizing readily available webcams and open-source software makes this solution both affordable and accessible for a wide range of users. 
+## ⚙️ Two-Phase Development
 
-**Conclusion:** 
+**Phase 1 — Core Implementation** (`Phase 1 (Code)/`)
+Basic hand detection, landmark extraction, cursor mapping, and click detection. Gets the system working end to end.
 
-The  Virtual  Mouse  using  Hand  Gesture  Recognition  project  aims  to  create  a  practical  and innovative solution for touchless computer interaction. By employing OpenCV and mathematical algorithms, the system will interpret hand gestures captured by a webcam to simulate mouse functions. This project not only provides significant health and accessibility benefits but also contributes to the growing field of human-computer interaction. With its cost-effective approach and educational potential, it stands as a testament to the transformative power of computer vision technologies. This project aligns with current technological trends and societal needs, promising a useful tool that enhances the way we interact with computers in a contact-free manner. 
+**Phase 2 — Tuning** (`Phase 2 (Tuning)/`)
+Smoothing algorithms, gesture sensitivity calibration, dead zone implementation to prevent cursor jitter, and multi-gesture refinement.
+
+---
+
+## 🚀 Quickstart
+
+```bash
+git clone https://github.com/mahmedmajeedai/AI-virtual-mouse-using-hand-gesture.git
+cd AI-virtual-mouse-using-hand-gesture
+pip install opencv-python mediapipe pyautogui numpy
+python "Phase 2 (Tuning)/main.py"
+```
+
+Allow webcam access when prompted. Hold your hand in view of the camera and start controlling.
+
+---
+
+## 🛠️ Tech Stack
+
+| Library | Role |
+|---|---|
+| `mediapipe` | 21-point 3D hand landmark detection in real time |
+| `opencv-python` | Webcam capture, frame display, visual overlay |
+| `pyautogui` | Programmatic mouse movement and click simulation |
+| `numpy` | Coordinate smoothing and screen space mapping |
+
+---
+
+## 🌍 Applications
+
+| Domain | Use Case |
+|---|---|
+| 🏥 **Healthcare** | Touchless interaction with shared clinical devices |
+| ♿ **Accessibility** | Alternative input for users with mobility limitations |
+| 🎤 **Presentations** | Slide control without a physical clicker |
+| 🧪 **HCI Research** | Gesture-based interface experimentation |
+
+---
+
+## ⚠️ Requirements
+
+- Python 3.7 or higher
+- A working webcam (built-in or USB)
+- Adequate lighting for hand detection
+
+---
+
+<div align="center">
+
+**Built by [Muhammad Ahmed Majeed](https://github.com/mahmedmajeedai)**
+
+*Touchless human-computer interaction via computer vision*
+
+<img src="https://capsule-render.vercel.app/api?type=waving&color=0:2d2d6b,50:1a1a3e,100:0a0a1a&height=80&section=footer" width="100%"/>
+
+</div>
